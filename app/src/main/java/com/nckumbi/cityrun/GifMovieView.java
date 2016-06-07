@@ -7,7 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Movie;
 import android.os.Build;
 import android.util.AttributeSet;
+//import android.util.Log;
 import android.view.View;
+
+import com.nckumbi.cityrun.R;
 
 /**
  * This is a View class that wraps Android {@link Movie} object and displays it.
@@ -111,7 +114,7 @@ public class GifMovieView extends View {
 
     public void setPaused(boolean paused) {
         this.mPaused = paused;
-
+        //Log.d("GifMovieView", "paused = " + paused);
         /**
          * Calculate new movie start time, so that it resumes from the same
          * frame.
