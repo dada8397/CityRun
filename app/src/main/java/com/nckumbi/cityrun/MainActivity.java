@@ -1,26 +1,27 @@
 package com.nckumbi.cityrun;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    protected static BackgroundMusicPlayer player;
     GifMovieView mainBikeGif;
     GifMovieView mainMountainGif;
-    BackgroundMusicPlayer player;
     ImageButton imageButton;
+    protected static Boolean stopped;
+    protected static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         if (imageButton != null) {
             imageButton.setOnClickListener(startLoginActivity);
         }
+
+        player = new BackgroundMusicPlayer(MainActivity.this, R.raw.main_bgm, true);
+        player.execute();
+        stopped = false;
+
+        context = getApplicationContext();
     }
 
     @Override
@@ -61,7 +68,15 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         mainBikeGif.setPaused(true);
         mainMountainGif.setPaused(true);
-        player.cancel(true);
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskInfo = activityManager.getRunningTasks(1);
+        if (!taskInfo.isEmpty()) {
+            ComponentName topActivity = taskInfo.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                player.cancel(true);
+                stopped = true;
+            }
+        }
     }
 
     @Override
@@ -69,20 +84,34 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mainBikeGif.setPaused(false);
         mainMountainGif.setPaused(false);
-        player = new BackgroundMusicPlayer(MainActivity.this, R.raw.main_bgm, true);
-        player.execute();
+        if(stopped) {
+            player = new BackgroundMusicPlayer(MainActivity.this, R.raw.main_bgm, true);
+            player.execute();
+            stopped = false;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mainBikeGif.setPaused(true);
+        mainMountainGif.setPaused(true);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        player.cancel(true);
     }
 
     protected View.OnClickListener startLoginActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Log.d("Main activity", "Touch screen");
-
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     };
 }

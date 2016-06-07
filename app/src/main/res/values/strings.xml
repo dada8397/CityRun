@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">City Run</string>
+    <string name="register_text"><u>註冊帳號</u></string>
+    <string name="forget_password_text"><u>忘記密碼</u></string>
 </resources>

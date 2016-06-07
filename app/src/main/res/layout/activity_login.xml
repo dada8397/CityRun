@@ -3,4 +3,114 @@
 android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@drawable/login_bg">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="還沒有"
+            android:id="@+id/textView"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/register_text"
+            android:id="@+id/registerTextView"
+            android:textSize="24sp"
+            android:textColor="#fdb038"
+            android:textStyle="bold"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="嗎?　　"
+            android:id="@+id/textView3"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/forget_password_text"
+            android:id="@+id/forgetPasswordTextView"
+            android:textColor="#fdb038"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/facebookLoginImageButton"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="133dp"
+            android:background="@drawable/login_via_facebook" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginImageButton"
+            android:layout_marginBottom="43dp"
+            android:background="@drawable/login_login"
+            android:layout_above="@+id/facebookLoginImageButton"
+            android:layout_alignRight="@+id/facebookLoginImageButton"
+            android:layout_alignEnd="@+id/facebookLoginImageButton" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/emailEditText"
+            android:layout_marginBottom="63dp"
+            android:layout_above="@+id/loginImageButton"
+            android:layout_alignLeft="@+id/facebookLoginImageButton"
+            android:layout_alignStart="@+id/facebookLoginImageButton"
+            android:layout_alignRight="@+id/facebookLoginImageButton"
+            android:layout_alignEnd="@+id/facebookLoginImageButton"
+            android:hint="Email"
+            android:textColorHint="#a7b096"
+            android:background="@drawable/text_box" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/passwordEditText"
+            android:layout_marginBottom="17dp"
+            android:layout_above="@+id/loginImageButton"
+            android:layout_alignLeft="@+id/emailEditText"
+            android:layout_alignStart="@+id/emailEditText"
+            android:layout_alignRight="@+id/emailEditText"
+            android:layout_alignEnd="@+id/emailEditText"
+            android:hint="Password"
+            android:textColorHint="#a7b096"
+            android:background="@drawable/text_box"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="讓我保持登入狀態"
+            android:id="@+id/rememberCheckBox"
+            android:layout_alignBottom="@+id/loginImageButton"
+            android:layout_alignLeft="@+id/passwordEditText"
+            android:layout_alignStart="@+id/passwordEditText" />
+    </RelativeLayout>
 </FrameLayout>
