@@ -39,14 +39,14 @@ public class ProfileHelper {
     }
 
     public static void login(String email, String password, Callback callback) {
-        new LoginTask(callback).execute(email, password);
+        new LoginTask(callback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, email, password);
     }
 
     public static void fbLogin(final String id, final String name, final String email, final Callback callback) {
         final Callback registerCallback = new Callback() {
             @Override
             public void onComplete(JSONObject result) {
-                new LoginTask(callback).execute(email, id);
+                new LoginTask(callback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, email, id);
             }
         };
 
@@ -55,7 +55,7 @@ public class ProfileHelper {
             public void onComplete(JSONObject result) {
                 try {
                     if (result != null && !result.getBoolean("result")) {
-                        new RegisterTask(registerCallback).execute(name, email, id);
+                        new RegisterTask(registerCallback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, name, email, id);
                     } else {
                         callback.onComplete(result);
                     }
@@ -64,15 +64,15 @@ public class ProfileHelper {
             }
         };
 
-        new LoginTask(loginCallback).execute(email, id);
+        new LoginTask(loginCallback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, email, id);
     }
 
     public static void register(String name, String email, String password, Callback callback) {
-        new RegisterTask(callback).execute(name, email, password);
+        new RegisterTask(callback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, name, email, password);
     }
 
     public static void query(String uuid, Callback callback) {
-        new QueryTask(callback).execute(uuid);
+        new QueryTask(callback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, uuid);
     }
 
     public interface Callback {

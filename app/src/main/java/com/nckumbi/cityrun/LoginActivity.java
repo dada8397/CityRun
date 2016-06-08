@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -199,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
         if(MainActivity.stopped) {
             MainActivity.player = new BackgroundMusicPlayer(LoginActivity.this, R.raw.main_bgm, true);
-            MainActivity.player.execute();
+            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             MainActivity.stopped = false;
         }
     }

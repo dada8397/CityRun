@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         player = new BackgroundMusicPlayer(MainActivity.this, R.raw.main_bgm, true);
-        player.execute();
+        player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         stopped = false;
 
         context = getApplicationContext();
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         mainMountainGif.setPaused(false);
         if(stopped) {
             player = new BackgroundMusicPlayer(MainActivity.this, R.raw.main_bgm, true);
-            player.execute();
+            player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             stopped = false;
         }
     }
