@@ -57,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
         regRegisterImageButton = (ImageButton) findViewById(R.id.regRegisterImageButton);
         regBackImageButton = (ImageButton) findViewById(R.id.regBackImageButton);
         policyCheckBox = (CheckBox) findViewById(R.id.policyCheckBox);
+
+        regBackImageButton.setOnClickListener(backImageButtonOnClick);
     }
 
     @Override
@@ -88,4 +90,11 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    protected View.OnClickListener backImageButtonOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RegisterActivity.this.finish();
+        }
+    };
 }
