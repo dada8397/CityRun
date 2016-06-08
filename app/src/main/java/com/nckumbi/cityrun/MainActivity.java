@@ -1,6 +1,7 @@
 package com.nckumbi.cityrun;
 
 import android.app.ActivityManager;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.nckumbi.cityrun.utils.ProfileHelper;
+import com.nckumbi.cityrun.utils.Utils;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -109,10 +116,51 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Log.d("Main activity", "Touch screen");
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+            String uuid = ProfileHelper.getCurrentUuid(MainActivity.this);
+            if (uuid != null) {
+                Log.d("Main activity", "Found saved uuid");
+
+//                loginWithUuid(uuid);
+            } else {
+                Log.d("Main activity", "Request to login");
+
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
         }
     };
+
+    private void loginWithUuid(String uuid) {
+        final ProgressDialog progressDialog = ProgressDialog.show(MainActivity.this,
+                "請稍後", "等待伺服器回應中...", true);
+
+        ProfileHelper.query(uuid, new ProfileHelper.Callback() {
+            @Override
+            public void onComplete(JSONObject result) {
+                progressDialog.dismiss();
+
+                if (result == null) {
+                    Toast.makeText(MainActivity.this, R.string.msg_network_error, Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        Intent intent = new Intent();
+
+                        if (result.getBoolean("result")) {
+                            intent.setClass(MainActivity.this, MainMenuActivity.class);
+                            intent.putExtras(Utils.JsonToBundle(result));
+                        } else {
+                            intent.setClass(MainActivity.this, LoginActivity.class);
+                        }
+
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        });
+    }
 }

@@ -1,7 +1,12 @@
 package com.nckumbi.cityrun.utils;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+
+import com.nckumbi.cityrun.R;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -21,6 +26,36 @@ import java.util.List;
  * Created by user on 2016/5/12.
  */
 public class Utils {
+    public static void showErrorDialog(Context context, String content) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle(R.string.msg_title_error);
+        builder.setMessage(content);
+        builder.setPositiveButton(R.string.msg_button_ok,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+
+        builder.create().show();
+    }
+
+    public static void showErrorDialog(Context context, int resourceId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle(R.string.msg_title_error);
+        builder.setMessage(resourceId);
+        builder.setPositiveButton(R.string.msg_button_ok,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+
+        builder.create().show();
+    }
+
     public static String sendPostRequest(String url, List<NameValuePair> params) {
         // Setup a POST request
         HttpPost httpRequest = new HttpPost(url);

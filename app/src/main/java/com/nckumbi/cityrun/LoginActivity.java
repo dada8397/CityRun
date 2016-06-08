@@ -4,12 +4,10 @@ import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -53,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
 
     /* Facebook Login Manager */
     CallbackManager callbackManager;
-    private AccessToken accessToken;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,16 +91,86 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Context context = getApplicationContext();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskInfo = activityManager.getRunningTasks(1);
+        if (!taskInfo.isEmpty()) {
+            ComponentName topActivity = taskInfo.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                MainActivity.player.cancel(true);
+                MainActivity.stopped = true;
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (MainActivity.stopped) {
+            MainActivity.player = new BackgroundMusicPlayer(LoginActivity.this, R.raw.main_bgm, true);
+            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            MainActivity.stopped = false;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    protected View.OnClickListener loginImageButtonOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (emailEditText.getText().toString().isEmpty()
+                    || passwordEditText.getText().toString().isEmpty()) {
+                Utils.showErrorDialog(LoginActivity.this, "請輸入完整的登入資訊！");
+            } else {
+                login(emailEditText.getText().toString(), passwordEditText.getText().toString());
+            }
+        }
+    };
+
+    protected View.OnClickListener facebookLoginImageButtonOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
+    protected View.OnClickListener registerTextViewOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setClass(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
+    };
+
+    protected View.OnClickListener forgetPasswordTextViewOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
     private FacebookCallback<LoginResult> facebookCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
             Log.d("Facebook", "Login success");
 
-            // Save access token for the future
-            accessToken = loginResult.getAccessToken();
-
             // Ask for personal information
-            GraphRequest request = GraphRequest.newMeRequest(accessToken, graphCallback);
+            GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), graphCallback);
 
             Bundle parameters = new Bundle();
             parameters.putString("fields", "id,name,email");
@@ -148,29 +214,19 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 try {
                                     if (result.getBoolean("result")) {
-                                        ProfileHelper.saveCurrentUuid(LoginActivity.this, result.getString("uuid"));
+                                        if (LoginActivity.this.rememberCheckBox.isChecked()) {
+                                            ProfileHelper.saveCurrentUuid(LoginActivity.this, result.getString("uuid"));
+                                        }
 
-                                        /*Intent intent = new Intent();
-                                        intent.setClass(LoginActivity.this, MainMenuActivity.class);
-                                        intent.putExtras(Utils.JsonToBundle(result));
-                                        startActivity(intent);*/
+//                                        Intent intent = new Intent();
+//                                        intent.setClass(LoginActivity.this, MainMenuActivity.class);
+//                                        intent.putExtras(Utils.JsonToBundle(result));
+//                                        startActivity(intent);
 
                                         LoginActivity.this.finish();
                                     } else {
                                         LoginManager.getInstance().logOut();
-
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-
-                                        builder.setTitle(R.string.msg_title_error);
-                                        builder.setMessage(R.string.msg_login_fb_fail);
-                                        builder.setPositiveButton(R.string.msg_button_ok,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                    }
-                                                });
-
-                                        builder.create().show();
+                                        Utils.showErrorDialog(LoginActivity.this, R.string.msg_login_fb_fail);
                                     }
                                 } catch (Exception e) {
                                 }
@@ -180,64 +236,37 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Context context = getApplicationContext();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> taskInfo = activityManager.getRunningTasks(1);
-        if (!taskInfo.isEmpty()) {
-            ComponentName topActivity = taskInfo.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                MainActivity.player.cancel(true);
-                MainActivity.stopped = true;
+    private void login(String email, String password) {
+        final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this,
+                "請稍後", "等待伺服器回應中...", true);
+
+        ProfileHelper.login(email, password, new ProfileHelper.Callback() {
+            @Override
+            public void onComplete(JSONObject result) {
+                progressDialog.dismiss();
+
+                if (result == null) {
+                    Toast.makeText(LoginActivity.this, R.string.msg_network_error, Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        if (result.getBoolean("result")) {
+                            if (LoginActivity.this.rememberCheckBox.isChecked()) {
+                                ProfileHelper.saveCurrentUuid(LoginActivity.this, result.getString("uuid"));
+                            }
+
+//                            Intent intent = new Intent();
+//                            intent.setClass(LoginActivity.this, MainMenuActivity.class);
+//                            intent.putExtras(Utils.JsonToBundle(result));
+//                            startActivity(intent);
+
+                            LoginActivity.this.finish();
+                        } else {
+                            Utils.showErrorDialog(LoginActivity.this, R.string.msg_login_fail);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
             }
-        }
+        });
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(MainActivity.stopped) {
-            MainActivity.player = new BackgroundMusicPlayer(LoginActivity.this, R.raw.main_bgm, true);
-            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            MainActivity.stopped = false;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    protected View.OnClickListener loginImageButtonOnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-
-    protected View.OnClickListener facebookLoginImageButtonOnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-
-    protected View.OnClickListener registerTextViewOnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();
-            intent.setClass(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        }
-    };
-
-    protected View.OnClickListener forgetPasswordTextViewOnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
 }
