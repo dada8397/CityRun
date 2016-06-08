@@ -2,4 +2,12 @@
     <string name="app_name">City Run</string>
     <string name="register_text"><u>註冊帳號</u></string>
     <string name="forget_password_text"><u>忘記密碼</u></string>
+    <string name="privacy_policy"><u>隱私權條款</u></string>
+    <string name="facebook_app_id">235854706790546</string>
+    <string name="msg_title_error">錯誤</string>
+    <string name="msg_network_error">無法取得連線，請確認網路狀況。</string>
+    <string name="msg_login_fail">帳號或密碼錯誤！</string>
+    <string name="msg_login_fb_fail">此帳戶所關聯的信箱已透過其他方式註冊，請以密碼登入。</string>
+    <string name="msg_register_fail">此信箱已註冊過！</string>
+    <string name="msg_button_ok">確定</string>
 </resources>
