@@ -3,6 +3,7 @@ package com.nckumbi.cityrun;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -22,12 +23,13 @@ import java.util.List;
  */
 public class RegisterActivity extends AppCompatActivity {
 
+    EditText regUserNameEditText;
     EditText regEmailEditText;
-    EditText passwordEditText;
-    ImageButton loginImageButton;
-    ImageButton facebookLoginImageButton;
-    TextView registerTextView;
-    CheckBox rememberCheckBox;
+    EditText regPasswordEditText;
+    EditText regConfirmPasswordEditText;
+    ImageButton regRegisterImageButton;
+    ImageButton regBackImageButton;
+    CheckBox policyCheckBox;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,14 @@ public class RegisterActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(uiOptions);
         }
         setContentView(R.layout.activity_register);
+
+        regUserNameEditText = (EditText) findViewById(R.id.regUserNameEditText);
+        regEmailEditText = (EditText) findViewById(R.id.regEmailEditText);
+        regPasswordEditText = (EditText) findViewById(R.id.regPasswordEditText);
+        regConfirmPasswordEditText = (EditText) findViewById(R.id.regConfirmPasswordEditText);
+        regRegisterImageButton = (ImageButton) findViewById(R.id.regRegisterImageButton);
+        regBackImageButton = (ImageButton) findViewById(R.id.regBackImageButton);
+        policyCheckBox = (CheckBox) findViewById(R.id.policyCheckBox);
     }
 
     @Override

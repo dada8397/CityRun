@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if (mainMountainGif != null) {
             mainMountainGif.setMovieResource(R.drawable.main_mountain);
         }
-        imageButton = (ImageButton) findViewById(R.id.registerImageButton);
+        imageButton = (ImageButton) findViewById(R.id.regRegisterImageButton);
         if (imageButton != null) {
             imageButton.setOnClickListener(startLoginActivity);
         }
