@@ -18,7 +18,7 @@ import java.util.TimerTask;
  *
  *   In onResume:
  *     player = new BackgroundMusicPlayer(CONTEXT, RESOURCE_ID, IS_LOOP);
- *     player.execute();
+ *     player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
  *
  *   In onPause:
  *     player.cancel(true);
