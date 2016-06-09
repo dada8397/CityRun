@@ -135,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     try {
                                         if (result.getBoolean("result")) {
                                             Toast.makeText(RegisterActivity.this,
-                                                    "註冊成功，即將返回註冊頁面。", Toast.LENGTH_LONG).show();
+                                                    "註冊成功，即將返回登入頁面。", Toast.LENGTH_LONG).show();
 
                                             RegisterActivity.this.finish();
                                         } else {

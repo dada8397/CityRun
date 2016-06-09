@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             if (uuid != null) {
                 Log.d("Main activity", "Found saved uuid");
 
-//                loginWithUuid(uuid);
+                loginWithUuid(uuid);
             } else {
                 Log.d("Main activity", "Request to login");
 
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent();
 
                         if (result.getBoolean("result")) {
-                            intent.setClass(MainActivity.this, MainMenuActivity.class);
+                            intent.setClass(MainActivity.this, GameMenuActivity.class);
                             intent.putExtras(Utils.JsonToBundle(result));
                         } else {
                             intent.setClass(MainActivity.this, LoginActivity.class);

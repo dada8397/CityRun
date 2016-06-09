@@ -218,10 +218,10 @@ public class LoginActivity extends AppCompatActivity {
                                             ProfileHelper.saveCurrentUuid(LoginActivity.this, result.getString("uuid"));
                                         }
 
-//                                        Intent intent = new Intent();
-//                                        intent.setClass(LoginActivity.this, MainMenuActivity.class);
-//                                        intent.putExtras(Utils.JsonToBundle(result));
-//                                        startActivity(intent);
+                                        Intent intent = new Intent();
+                                        intent.setClass(LoginActivity.this, GameMenuActivity.class);
+                                        intent.putExtras(Utils.JsonToBundle(result));
+                                        startActivity(intent);
 
                                         LoginActivity.this.finish();
                                     } else {
@@ -254,10 +254,10 @@ public class LoginActivity extends AppCompatActivity {
                                 ProfileHelper.saveCurrentUuid(LoginActivity.this, result.getString("uuid"));
                             }
 
-//                            Intent intent = new Intent();
-//                            intent.setClass(LoginActivity.this, MainMenuActivity.class);
-//                            intent.putExtras(Utils.JsonToBundle(result));
-//                            startActivity(intent);
+                            Intent intent = new Intent();
+                            intent.setClass(LoginActivity.this, GameMenuActivity.class);
+                            intent.putExtras(Utils.JsonToBundle(result));
+                            startActivity(intent);
 
                             LoginActivity.this.finish();
                         } else {
