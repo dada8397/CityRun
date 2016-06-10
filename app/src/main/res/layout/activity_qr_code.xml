@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/qr_code_bg">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/qrCodeImageButton"
+        android:layout_gravity="center_horizontal|bottom"
+        android:src="@drawable/qr_code_button"
+        android:background="#0fffffff"
+        android:layout_marginBottom="20dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/qrCodeMenuImageButton"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="34dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/all_menu_icon" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/qrCodeBackImageButton"
+        android:layout_gravity="left|top"
+        android:layout_marginTop="34dp"
+        android:layout_marginLeft="12dp"
+        android:background="@drawable/all_back_arrow" />
+</FrameLayout>

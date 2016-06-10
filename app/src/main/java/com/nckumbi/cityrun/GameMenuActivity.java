@@ -95,6 +95,8 @@ public class GameMenuActivity extends AppCompatActivity {
             }
         });
 
+        initializeComponents();
+
         gameMenuQrCodeImageButton.setOnClickListener(qrCodeImageButtonClicked);
     }
 
@@ -105,6 +107,34 @@ public class GameMenuActivity extends AppCompatActivity {
         }
     };
 
+    protected void initializeComponents() {
+        if(!isUnlocked()) {
+            gameMenuMask.setVisibility(View.VISIBLE);
+            gameMenuChainRight.setVisibility(View.VISIBLE);
+            gameMenuChainLeft.setVisibility(View.VISIBLE);
+            gameMenuQrCodeImageButton.setVisibility(View.VISIBLE);
+            gameMenuLockImageButton.setVisibility(View.VISIBLE);
+            gameMenuMask.setAlpha(1.0f);
+            gameMenuChainRight.setAlpha(1.0f);
+            gameMenuChainLeft.setAlpha(1.0f);
+            gameMenuQrCodeImageButton.setAlpha(1.0f);
+            gameMenuLockImageButton.setAlpha(1.0f);
+        } else {
+            gameMenuMask.setVisibility(View.GONE);
+            gameMenuChainRight.setVisibility(View.GONE);
+            gameMenuChainLeft.setVisibility(View.GONE);
+            gameMenuQrCodeImageButton.setVisibility(View.GONE);
+            unlockedGif.setVisibility(View.GONE);
+            gameMenuLockImageButton.setVisibility(View.GONE);
+            gameMenuUnlockedSloganImageView.setVisibility(View.GONE);
+        }
+    }
+
+    protected Boolean isUnlocked() {
+        return false;
+    }
+
+    // 掃描完 QrCode 執行
     protected void unlockLevel() {
         unlockedGif.animate()
                 .alpha(1.0f)
@@ -181,7 +211,8 @@ public class GameMenuActivity extends AppCompatActivity {
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 super.onAnimationEnd(animation);
-                                gameMenuLockImageButton.setVisibility(View.GONE);
+                                unlockedGif.setVisibility(View.GONE);
+                                unlockedGif.setPaused(true);
                             }
                         });
                 gameMenuLockImageButton.animate()

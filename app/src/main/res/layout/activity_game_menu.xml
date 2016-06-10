@@ -4,18 +4,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/game_menu_bg">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <com.nckumbi.cityrun.GifMovieView
+        android:id="@+id/gameMenuLevelSeekretMarketGif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top">
-
-        <com.nckumbi.cityrun.GifMovieView
-            android:id="@+id/gameMenuLevelSeekretMarketGif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
+        android:layout_weight="1"
+        android:layout_gravity="center" />
 
     <RelativeLayout
         android:layout_width="160dp"
@@ -59,8 +53,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/gameMenuMask"
         android:layout_gravity="center"
-        android:background="@drawable/all_mask"
-        android:layout_marginTop="45dp" />
+        android:src="@drawable/all_mask" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameMenuLevelSeekretMarketTitleImageView"
+        android:layout_gravity="center"
+        android:src="@drawable/game_menu_level_seekret_market_title" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -83,14 +83,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/gameMenuChainLeftImageView"
         android:layout_gravity="center"
-        android:background="@drawable/game_menu_chain_left" />
+        android:src="@drawable/game_menu_chain_left" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gameMenuChainRightImageView"
         android:layout_gravity="center"
-        android:background="@drawable/game_menu_chain_right" />
+        android:src="@drawable/game_menu_chain_right" />
 
     <ImageButton
         android:layout_width="wrap_content"
