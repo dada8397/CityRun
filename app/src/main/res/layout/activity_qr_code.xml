@@ -30,4 +30,11 @@
         android:layout_marginTop="34dp"
         android:layout_marginLeft="12dp"
         android:background="@drawable/all_back_arrow" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"></LinearLayout>
 </FrameLayout>
