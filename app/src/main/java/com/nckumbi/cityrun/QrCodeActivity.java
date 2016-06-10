@@ -1,6 +1,7 @@
 package com.nckumbi.cityrun;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -98,7 +99,10 @@ public class QrCodeActivity extends AppCompatActivity implements ZBarScannerView
         final Long startTime = GameHelper.getStartTime(QrCodeActivity.this, data);
 
         if (GameHelper.getElapsedTime(startTime) < GameHelper.AVAILABLE_DURATION) {
-            setResult(GameHelper.QRCODE_VALID_RESULT_CODE);
+            Intent intent = new Intent();
+            intent.putExtra("serial", data);
+
+            setResult(GameHelper.QRCODE_VALID_RESULT_CODE, intent);
             QrCodeActivity.this.finish();
         } else {
             QrCodeActivity.this.runOnUiThread(new Runnable() {

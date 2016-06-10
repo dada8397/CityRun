@@ -15,6 +15,22 @@ public class GameHelper {
 
     public static final Long AVAILABLE_DURATION = 3600 * 3L;
 
+    public static final String PREF_CURRENT_SERIAL = "serial";
+
+    public static void saveCurrentSerial(Context context, String serial) {
+        SharedPreferences preferences = context.getSharedPreferences(
+                context.getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
+
+        preferences.edit().putString(PREF_CURRENT_SERIAL, serial).apply();
+    }
+
+    public static String getCurrentSerial(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(
+                context.getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
+
+        return preferences.getString(PREF_CURRENT_SERIAL, null);
+    }
+
     public static void saveStartTime(Context context, String serial) {
         SharedPreferences preferences = context.getSharedPreferences(
                 context.getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
