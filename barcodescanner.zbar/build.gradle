@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 23
+    }
+}
+
+ext {
+    isLibrary = true
+    pomPackaging = "aar"
+    pomArtifactId = "zbar"
+    pomName = "ZBar Scanner View"
+    pomDescription = 'An android library project which contains the zbar barcode scanner view'
+}
+
+dependencies {
+    compile project(':barcodescanner.core')
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
