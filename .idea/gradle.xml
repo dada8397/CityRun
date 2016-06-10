@@ -10,12 +10,16 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/barcodescanner.core" />
+            <option value="$PROJECT_DIR$/barcodescanner.zbar" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/barcodescanner.core" />
+            <option value="$PROJECT_DIR$/barcodescanner.zbar" />
           </set>
         </option>
       </GradleProjectSettings>

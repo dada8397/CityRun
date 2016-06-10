@@ -27,25 +27,27 @@ import java.util.List;
  */
 public class Utils {
     public static void showErrorDialog(Context context, String content) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-        builder.setTitle(R.string.msg_title_error);
-        builder.setMessage(content);
-        builder.setPositiveButton(R.string.msg_button_ok,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                });
-
-        builder.create().show();
+        showDialog(context, R.string.msg_title_error, content);
     }
 
-    public static void showErrorDialog(Context context, int resourceId) {
+    public static void showErrorDialog(Context context, int contentResourceId) {
+        showDialog(context, R.string.msg_title_error, contentResourceId);
+    }
+
+    public static void showDialog(Context context, int titleResourceId, int contentResourceId) {
+        showDialog(context, context.getResources().getString(titleResourceId),
+                context.getResources().getString(contentResourceId));
+    }
+
+    public static void showDialog(Context context, int titleResourceId, String content) {
+        showDialog(context, context.getResources().getString(titleResourceId), content);
+    }
+
+    public static void showDialog(Context context, String title, String content) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setTitle(R.string.msg_title_error);
-        builder.setMessage(resourceId);
+        builder.setTitle(title);
+        builder.setMessage(content);
         builder.setPositiveButton(R.string.msg_button_ok,
                 new DialogInterface.OnClickListener() {
                     @Override

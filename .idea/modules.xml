@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CityRun.iml" filepath="$PROJECT_DIR$/CityRun.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/barcodescanner.core/barcodescanner.core.iml" filepath="$PROJECT_DIR$/barcodescanner.core/barcodescanner.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/barcodescanner.zbar/barcodescanner.zbar.iml" filepath="$PROJECT_DIR$/barcodescanner.zbar/barcodescanner.zbar.iml" />
     </modules>
   </component>
 </project>

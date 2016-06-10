@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,6 +18,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.nckumbi.cityrun.utils.GameHelper;
+import com.nckumbi.cityrun.utils.Utils;
 
 import java.util.List;
 
@@ -100,10 +104,46 @@ public class GameMenuActivity extends AppCompatActivity {
         gameMenuQrCodeImageButton.setOnClickListener(qrCodeImageButtonClicked);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Context context = getApplicationContext();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskInfo = activityManager.getRunningTasks(1);
+        if (!taskInfo.isEmpty()) {
+            ComponentName topActivity = taskInfo.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                MainActivity.player.cancel(true);
+                MainActivity.stopped = true;
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (MainActivity.stopped) {
+            MainActivity.player = new BackgroundMusicPlayer(GameMenuActivity.this, R.raw.main_bgm, true);
+            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            MainActivity.stopped = false;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GameHelper.QRCODE_SCANNER_REQUEST_CODE) {
+            if (resultCode == GameHelper.QRCODE_VALID_RESULT_CODE) {
+                unlockLevel();
+            }
+        }
+    }
+
     protected View.OnClickListener qrCodeImageButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            unlockLevel();
+            Intent intent = new Intent();
+            intent.setClass(GameMenuActivity.this, QrCodeActivity.class);
+            startActivityForResult(intent, GameHelper.QRCODE_SCANNER_REQUEST_CODE);
         }
     };
 
@@ -237,30 +277,5 @@ public class GameMenuActivity extends AppCompatActivity {
                         });
             }
         }, 2000);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Context context = getApplicationContext();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> taskInfo = activityManager.getRunningTasks(1);
-        if (!taskInfo.isEmpty()) {
-            ComponentName topActivity = taskInfo.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                MainActivity.player.cancel(true);
-                MainActivity.stopped = true;
-            }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (MainActivity.stopped) {
-            MainActivity.player = new BackgroundMusicPlayer(GameMenuActivity.this, R.raw.main_bgm, true);
-            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            MainActivity.stopped = false;
-        }
     }
 }
