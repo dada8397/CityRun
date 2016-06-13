@@ -102,6 +102,7 @@ public class GameMenuActivity extends AppCompatActivity {
         initializeComponents();
 
         gameMenuQrCodeImageButton.setOnClickListener(qrCodeImageButtonClicked);
+        gameMenuEnterGameImageButton.setOnClickListener(enterGameImageButtonOnClicked);
     }
 
     @Override
@@ -144,6 +145,17 @@ public class GameMenuActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(GameMenuActivity.this, QrCodeActivity.class);
             startActivityForResult(intent, GameHelper.QRCODE_SCANNER_REQUEST_CODE);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
+    };
+
+    protected  View.OnClickListener enterGameImageButtonOnClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setClass(GameMenuActivity.this, ChapterSelectActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     };
 

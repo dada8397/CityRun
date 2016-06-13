@@ -1,8 +1,12 @@
 package com.nckumbi.cityrun;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +18,8 @@ import android.view.WindowManager;
 
 import com.nckumbi.cityrun.utils.GameHelper;
 import com.nckumbi.cityrun.utils.Utils;
+
+import java.util.List;
 
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
@@ -68,6 +74,12 @@ public class QrCodeActivity extends AppCompatActivity implements ZBarScannerView
 
         scannerView.setResultHandler(QrCodeActivity.this);
         scannerView.startCamera();
+
+        if (MainActivity.stopped) {
+            MainActivity.player = new BackgroundMusicPlayer(QrCodeActivity.this, R.raw.main_bgm, true);
+            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            MainActivity.stopped = false;
+        }
     }
 
     @Override
@@ -75,6 +87,17 @@ public class QrCodeActivity extends AppCompatActivity implements ZBarScannerView
         super.onPause();
 
         scannerView.stopCamera();
+
+        Context context = getApplicationContext();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskInfo = activityManager.getRunningTasks(1);
+        if (!taskInfo.isEmpty()) {
+            ComponentName topActivity = taskInfo.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                MainActivity.player.cancel(true);
+                MainActivity.stopped = true;
+            }
+        }
     }
 
     @Override

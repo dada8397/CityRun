@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/chapter_select_bg">
+
+    <com.nckumbi.cityrun.GifMovieView
+        android:id="@+id/chapterSelectGif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chapterSelectItems"
+        android:layout_gravity="center"
+        android:background="@drawable/chapter_select_items" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chapterSelectMenuImageButton"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="34dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/all_menu_icon" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chapterSelectBackImageButton"
+        android:layout_gravity="left|top"
+        android:layout_marginTop="34dp"
+        android:layout_marginLeft="12dp"
+        android:background="@drawable/all_back_arrow" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameMenuQrCodeImageButton"
+        android:background="@drawable/chapter_select_game_start_button"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="20dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal|top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="00:00:00"
+            android:id="@+id/chapterSelectClock"
+            android:textSize="72dp"
+            android:textColor="#897a67"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="55dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="主題完成度: 0%"
+            android:id="@+id/chapterSelectProgress"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/chapterSelectClock"
+            android:layout_alignStart="@+id/chapterSelectClock"
+            android:layout_marginBottom="20dp"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30"
+            android:id="@+id/chapterSelectGold"
+            android:textSize="18dp"
+            android:layout_alignTop="@+id/chapterSelectProgress"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="36dp"
+            android:layout_marginEnd="36dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:id="@+id/chapterZeroImageView"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/chapter_select_unlocked_chapter_zero" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:id="@+id/chapterOneImageView"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/chapter_select_locked_chapter" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:id="@+id/chapterTwoImageView"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/chapter_select_locked_chapter" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:id="@+id/chapterThreeImageView"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/chapter_select_locked_chapter" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:id="@+id/chapterFourImageView"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/chapter_select_locked_chapter" />
+    </LinearLayout>
+
+</FrameLayout>
