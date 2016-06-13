@@ -36,14 +36,6 @@
         android:layout_marginLeft="12dp"
         android:background="@drawable/all_back_arrow" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/gameMenuQrCodeImageButton"
-        android:background="@drawable/chapter_select_game_start_button"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="20dp" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -126,5 +118,13 @@
             android:layout_gravity="center_horizontal"
             android:src="@drawable/chapter_select_locked_chapter" />
     </LinearLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/selectChapterGameStartImageButton"
+        android:background="@drawable/chapter_select_game_start_button"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="20dp" />
 
 </FrameLayout>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -15,6 +16,7 @@ public class ChapterSelectActivity extends AppCompatActivity {
 
     GifMovieView chapterSelectGif;
     TextView chapterSelectClock;
+    ImageButton selectChapterGameStartImageButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,5 +43,15 @@ public class ChapterSelectActivity extends AppCompatActivity {
         }
 
         chapterSelectClock = (TextView) findViewById(R.id.chapterSelectClock);
+        selectChapterGameStartImageButton = (ImageButton) findViewById(R.id.selectChapterGameStartImageButton);
+
+        selectChapterGameStartImageButton.setOnClickListener(gameStartClicked);
     }
+
+    protected View.OnClickListener gameStartClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
 }
