@@ -128,6 +128,18 @@ public class GameMenuActivity extends AppCompatActivity {
             MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             MainActivity.stopped = false;
         }
+        initializeComponents();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MainActivity.player.cancel(true);
     }
 
     @Override

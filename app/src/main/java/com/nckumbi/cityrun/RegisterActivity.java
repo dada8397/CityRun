@@ -92,8 +92,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        MainActivity.player.cancel(true);
     }
 
     protected View.OnClickListener backImageButtonOnClick = new View.OnClickListener() {

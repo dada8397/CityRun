@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/seekret_market_bg3">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="center"
+        android:src="@drawable/game_qa_bg" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="序章"
+            android:id="@+id/gameDialogChapterName"
+            android:layout_marginTop="32dp"
+            android:textColor="#ffffff"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="00:00:00"
+            android:id="@+id/gameQaClock"
+            android:textSize="72dp"
+            android:textColor="#897a67"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="110dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="主題完成度: 0%"
+            android:id="@+id/gameQaProgress"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/gameQaClock"
+            android:layout_alignStart="@+id/gameQaClock"
+            android:layout_marginBottom="410dp"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30"
+            android:id="@+id/gameQaGold"
+            android:textSize="18dp"
+            android:layout_alignTop="@+id/gameQaProgress"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="36dp"
+            android:layout_marginEnd="36dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/gameQaQuestionNumber"
+            android:layout_below="@+id/gameQaGold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp" />
+
+        <TextView
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/gameQaQuestion"
+            android:layout_below="@+id/gameQaQuestionNumber"
+            android:layout_alignLeft="@+id/gameQaProgress"
+            android:layout_alignStart="@+id/gameQaProgress"
+            android:layout_marginTop="20dp"
+            android:textSize="16dp" />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameQaAnswer"
+            android:layout_marginBottom="95dp"
+            android:background="@drawable/all_text_box"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:hint="你的答案"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameQaMenuImageButton"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="34dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/all_menu_icon" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameQaBackImageButton"
+        android:layout_gravity="left|top"
+        android:layout_marginTop="34dp"
+        android:layout_marginLeft="12dp"
+        android:background="@drawable/all_back_arrow" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameQaEnterImageButton"
+        android:background="@drawable/game_qa_enter_button"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="20dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/correctImage"
+        android:layout_gravity="center"
+        android:src="@drawable/game_qa_correct" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/incorrectImage"
+        android:layout_gravity="center"
+        android:src="@drawable/game_qa_incorrect" />
+</FrameLayout>

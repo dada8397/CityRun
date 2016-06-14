@@ -18,24 +18,6 @@
         android:layout_gravity="center"
         android:background="@drawable/chapter_select_items" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/chapterSelectMenuImageButton"
-        android:layout_gravity="right|top"
-        android:layout_marginTop="34dp"
-        android:layout_marginRight="12dp"
-        android:background="@drawable/all_menu_icon" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/chapterSelectBackImageButton"
-        android:layout_gravity="left|top"
-        android:layout_marginTop="34dp"
-        android:layout_marginLeft="12dp"
-        android:background="@drawable/all_back_arrow" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -77,10 +59,28 @@
             android:layout_marginEnd="36dp" />
     </RelativeLayout>
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chapterSelectMenuImageButton"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="34dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/all_menu_icon" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chapterSelectBackImageButton"
+        android:layout_gravity="left|top"
+        android:layout_marginTop="34dp"
+        android:layout_marginLeft="12dp"
+        android:background="@drawable/all_back_arrow" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:layout_height="400dp"
         android:layout_gravity="center_horizontal|bottom">
 
         <ImageView
@@ -122,7 +122,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/selectChapterGameStartImageButton"
+        android:id="@+id/chapterSelectGameStartImageButton"
         android:background="@drawable/chapter_select_game_start_button"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="20dp" />
