@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -75,10 +74,8 @@ public class QrCodeActivity extends AppCompatActivity implements ZBarScannerView
         scannerView.setResultHandler(QrCodeActivity.this);
         scannerView.startCamera();
 
-        if (MainActivity.stopped) {
-            MainActivity.player = new BackgroundMusicPlayer(QrCodeActivity.this, R.raw.main_bgm, true);
-            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            MainActivity.stopped = false;
+        if (BackgroundMusicService.isStopped()) {
+            BackgroundMusicService.start();
         }
     }
 
@@ -94,8 +91,7 @@ public class QrCodeActivity extends AppCompatActivity implements ZBarScannerView
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                MainActivity.player.cancel(true);
-                MainActivity.stopped = true;
+                BackgroundMusicService.pause();
             }
         }
     }
@@ -108,7 +104,6 @@ public class QrCodeActivity extends AppCompatActivity implements ZBarScannerView
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MainActivity.player.cancel(true);
     }
 
     @Override

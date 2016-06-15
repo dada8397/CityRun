@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -100,8 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                MainActivity.player.cancel(true);
-                MainActivity.stopped = true;
+                BackgroundMusicService.pause();
             }
         }
     }
@@ -109,10 +107,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (MainActivity.stopped) {
-            MainActivity.player = new BackgroundMusicPlayer(LoginActivity.this, R.raw.main_bgm, true);
-            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            MainActivity.stopped = false;
+        if (BackgroundMusicService.isStopped()) {
+            BackgroundMusicService.start();
         }
     }
 
