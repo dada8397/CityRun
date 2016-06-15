@@ -99,10 +99,10 @@ public class GameMenuActivity extends AppCompatActivity {
             }
         });
 
-        initializeComponents();
-
         gameMenuQrCodeImageButton.setOnClickListener(qrCodeImageButtonClicked);
         gameMenuEnterGameImageButton.setOnClickListener(enterGameImageButtonOnClicked);
+
+        initializeComponents();
     }
 
     @Override
@@ -148,6 +148,13 @@ public class GameMenuActivity extends AppCompatActivity {
             if (resultCode == GameHelper.QRCODE_VALID_RESULT_CODE) {
                 unlockLevel(data.getStringExtra("serial"));
             }
+        } else if (requestCode == GameHelper.ACTIVITY_REQUEST_CODE) {
+            if (resultCode == GameHelper.QRCODE_EXPIRED_RESULT_CODE) {
+                initializeComponents(false);
+                Utils.showDialog(GameMenuActivity.this, "無效的 QRCode",
+                        "此 QRCode 自掃描後已超過三小時，無法再度使用！");
+                GameHelper.saveCurrentSerial(GameMenuActivity.this, null);
+            }
         }
     }
 
@@ -161,23 +168,36 @@ public class GameMenuActivity extends AppCompatActivity {
         }
     };
 
-    protected  View.OnClickListener enterGameImageButtonOnClicked = new View.OnClickListener() {
+    protected View.OnClickListener enterGameImageButtonOnClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent();
             intent.setClass(GameMenuActivity.this, ChapterSelectActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, GameHelper.ACTIVITY_REQUEST_CODE);
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     };
 
     protected void initializeComponents() {
-        if (!isUnlocked()) {
+        initializeComponents(isUnlocked());
+    }
+
+    protected void initializeComponents(boolean unlocked) {
+        if (!unlocked) {
             gameMenuMask.setVisibility(View.VISIBLE);
             gameMenuChainRight.setVisibility(View.VISIBLE);
             gameMenuChainLeft.setVisibility(View.VISIBLE);
             gameMenuQrCodeImageButton.setVisibility(View.VISIBLE);
             gameMenuLockImageButton.setVisibility(View.VISIBLE);
+
+            gameMenuChainLeft.setX(0);
+            gameMenuChainLeft.setY(
+                    (getWindow().getDecorView().getHeight() - gameMenuChainLeft.getHeight()) / 2);
+
+            gameMenuChainRight.setX(0);
+            gameMenuChainRight.setY(
+                    (getWindow().getDecorView().getHeight() - gameMenuChainRight.getHeight()) / 2);
+
             gameMenuMask.setAlpha(1.0f);
             gameMenuChainRight.setAlpha(1.0f);
             gameMenuChainLeft.setAlpha(1.0f);
@@ -203,6 +223,7 @@ public class GameMenuActivity extends AppCompatActivity {
                 GameHelper.getStartTime(GameMenuActivity.this, currentSerial)) >= GameHelper.AVAILABLE_DURATION) {
             Utils.showDialog(GameMenuActivity.this, "無效的 QRCode",
                     "此 QRCode 自掃描後已超過三小時，無法再度使用！");
+            GameHelper.saveCurrentSerial(GameMenuActivity.this, null);
             return false;
         }
 
