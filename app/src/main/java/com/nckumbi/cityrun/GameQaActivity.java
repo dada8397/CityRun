@@ -17,7 +17,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nckumbi.cityrun.utils.GameHelper;
+
 import java.util.List;
+import java.util.Timer;
 
 /**
  * Created by DADA on 2016/6/14.
@@ -31,10 +34,14 @@ public class GameQaActivity extends AppCompatActivity {
 
     TextView gameQaQuestionNumber;
     TextView gameQaQuestion;
+    TextView gameQaClock;
     EditText gameQaAnswer;
     ImageButton gameQaEnterImageButton;
     ImageView correctImage;
     ImageView incorrectImage;
+
+    private String currentSerial;
+    private Timer expiredCheckTimer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +68,7 @@ public class GameQaActivity extends AppCompatActivity {
 
         gameQaQuestionNumber = (TextView) findViewById(R.id.gameQaQuestionNumber);
         gameQaQuestion = (TextView) findViewById(R.id.gameQaQuestion);
+        gameQaClock = (TextView) findViewById(R.id.gameQaClock);
         gameQaAnswer = (EditText) findViewById(R.id.gameQaAnswer);
         gameQaEnterImageButton = (ImageButton) findViewById(R.id.gameQaEnterImageButton);
         correctImage = (ImageView) findViewById(R.id.correctImage);
@@ -74,6 +82,8 @@ public class GameQaActivity extends AppCompatActivity {
         questionCount = 1;
 
         gameQaQuestion.setText(question(questionCount));
+
+        currentSerial = GameHelper.getCurrentSerial(GameQaActivity.this);
 
         Intent intent = new Intent();
         intent.setClass(GameQaActivity.this, GameDialogActivity.class);
@@ -94,15 +104,29 @@ public class GameQaActivity extends AppCompatActivity {
                 stopped = true;
             }
         }
+
+        if (expiredCheckTimer != null) {
+            expiredCheckTimer.cancel();
+            expiredCheckTimer = null;
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(stopped) {
+        if (stopped) {
             player = new BackgroundMusicPlayer(GameQaActivity.this, R.raw.game_bgm_seekret_market, true);
             player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             stopped = false;
+        }
+
+        if (expiredCheckTimer == null) {
+            expiredCheckTimer = new Timer(true);
+            expiredCheckTimer.schedule(new GameHelper.ExpiredCheckTask(
+                    GameQaActivity.this,
+                    gameQaClock,
+                    GameHelper.getStartTime(GameQaActivity.this, currentSerial)
+            ), 0, 1000);
         }
     }
 
@@ -217,11 +241,11 @@ public class GameQaActivity extends AppCompatActivity {
     private View.OnClickListener submitAnswer = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(questionCount > 10) {
+            if (questionCount > 10) {
                 GameQaActivity.this.finish();
             } else {
-                if(gameQaAnswer.getText().toString().equals(answer(questionCount))) {
-                    questionCount ++;
+                if (gameQaAnswer.getText().toString().equals(answer(questionCount))) {
+                    questionCount++;
                     correctImage.setVisibility(View.VISIBLE);
                     correctImage.animate()
                             .alpha(1.0f)

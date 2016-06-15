@@ -128,6 +128,12 @@ public class QrCodeActivity extends AppCompatActivity implements ZBarScannerView
         final Long startTime = GameHelper.getStartTime(QrCodeActivity.this, data);
 
         if (GameHelper.getElapsedTime(startTime) < GameHelper.AVAILABLE_DURATION) {
+            // FIXME: The following is demo code.
+            if (data.length() < 9 || !data.substring(0, 9).equals("startgame")) {
+                scannerView.resumeCameraPreview(this);
+                return;
+            }
+
             Intent intent = new Intent();
             intent.putExtra("serial", data);
 

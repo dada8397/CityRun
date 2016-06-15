@@ -15,7 +15,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nckumbi.cityrun.utils.GameHelper;
+
 import java.util.List;
+import java.util.Timer;
 
 /**
  * Created by DADA on 2016/6/14.
@@ -35,6 +38,9 @@ public class ChapterSelectActivity extends AppCompatActivity {
     ImageView chapterTwoImageView;
     ImageView chapterThreeImageView;
     ImageView chapterFourImageView;
+
+    private String currentSerial;
+    private Timer expiredCheckTimer;
 
     protected int nowChapter;
     protected String nowPlace;
@@ -73,28 +79,37 @@ public class ChapterSelectActivity extends AppCompatActivity {
 
         chapterSelectGameStartImageButton.setOnClickListener(gameStartClicked);
 
+        currentSerial = GameHelper.getCurrentSerial(ChapterSelectActivity.this);
+
         SharedPreferences sharedPreferences = getSharedPreferences(
                 getApplicationContext().getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
         nowPlace = "seekret_market";
         nowChapter = sharedPreferences.getInt("seekret_market", 0);
-        if(nowChapter == 0) {
+        if (nowChapter == 0) {
             sharedPreferences.edit().putInt("seekret_market", nowChapter);
         }
     }
 
-    protected View.OnClickListener gameStartClicked = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();
-            intent.setClass(ChapterSelectActivity.this, GameQaActivity.class);
-            startActivity(intent);
-            // Stop main activity bgm
-            MainActivity.player.cancel(true);
-            MainActivity.stopped = true;
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (MainActivity.stopped) {
+            MainActivity.player = new BackgroundMusicPlayer(ChapterSelectActivity.this, R.raw.main_bgm, true);
+            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            MainActivity.stopped = false;
         }
-    };
 
+        long serialStartTime = GameHelper.getStartTime(ChapterSelectActivity.this, currentSerial);
+
+        if (serialStartTime != GameHelper.getNowTimestamp()) {
+            expiredCheckTimer = new Timer(true);
+            expiredCheckTimer.schedule(new GameHelper.ExpiredCheckTask(
+                    ChapterSelectActivity.this,
+                    chapterSelectClock,
+                    serialStartTime
+            ), 0, 1000);
+        }
+    }
 
     @Override
     protected void onPause() {
@@ -109,15 +124,10 @@ public class ChapterSelectActivity extends AppCompatActivity {
                 MainActivity.stopped = true;
             }
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (MainActivity.stopped) {
-            MainActivity.player = new BackgroundMusicPlayer(ChapterSelectActivity.this, R.raw.main_bgm, true);
-            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            MainActivity.stopped = false;
+        if (expiredCheckTimer != null) {
+            expiredCheckTimer.cancel();
+            expiredCheckTimer = null;
         }
     }
 
@@ -131,4 +141,37 @@ public class ChapterSelectActivity extends AppCompatActivity {
         super.onDestroy();
         MainActivity.player.cancel(true);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GameHelper.ACTIVITY_REQUEST_CODE) {
+            if (resultCode == GameHelper.QRCODE_EXPIRED_RESULT_CODE) {
+                setResult(resultCode);
+                ChapterSelectActivity.this.finish();
+            }
+        }
+    }
+
+    protected View.OnClickListener gameStartClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            GameHelper.saveStartTime(ChapterSelectActivity.this, currentSerial);
+            if (expiredCheckTimer == null) {
+                expiredCheckTimer = new Timer(true);
+                expiredCheckTimer.schedule(new GameHelper.ExpiredCheckTask(
+                        ChapterSelectActivity.this,
+                        chapterSelectClock,
+                        GameHelper.getStartTime(ChapterSelectActivity.this, currentSerial)
+                ), 0, 1000);
+            }
+
+            Intent intent = new Intent();
+            intent.setClass(ChapterSelectActivity.this, GameQaActivity.class);
+            startActivityForResult(intent, GameHelper.ACTIVITY_REQUEST_CODE);
+            // Stop main activity bgm
+            MainActivity.player.cancel(true);
+            MainActivity.stopped = true;
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
+    };
 }
