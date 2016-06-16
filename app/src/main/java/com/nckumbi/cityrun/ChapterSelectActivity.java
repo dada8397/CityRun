@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -93,11 +92,7 @@ public class ChapterSelectActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (MainActivity.stopped) {
-            MainActivity.player = new BackgroundMusicPlayer(ChapterSelectActivity.this, R.raw.main_bgm, true);
-            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            MainActivity.stopped = false;
-        }
+        BackgroundMusicService.start(R.raw.main_bgm, true);
 
         long serialStartTime = GameHelper.getStartTime(ChapterSelectActivity.this, currentSerial);
 
@@ -120,8 +115,7 @@ public class ChapterSelectActivity extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                MainActivity.player.cancel(true);
-                MainActivity.stopped = true;
+                BackgroundMusicService.pause();
             }
         }
 
@@ -139,7 +133,6 @@ public class ChapterSelectActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MainActivity.player.cancel(true);
     }
 
     @Override
@@ -169,8 +162,7 @@ public class ChapterSelectActivity extends AppCompatActivity {
             intent.setClass(ChapterSelectActivity.this, GameQaActivity.class);
             startActivityForResult(intent, GameHelper.ACTIVITY_REQUEST_CODE);
             // Stop main activity bgm
-            MainActivity.player.cancel(true);
-            MainActivity.stopped = true;
+            BackgroundMusicService.pause();
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     };

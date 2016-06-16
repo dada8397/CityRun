@@ -75,8 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                MainActivity.player.cancel(true);
-                MainActivity.stopped = true;
+                BackgroundMusicService.pause();
             }
         }
     }
@@ -84,10 +83,8 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (MainActivity.stopped) {
-            MainActivity.player = new BackgroundMusicPlayer(RegisterActivity.this, R.raw.main_bgm, true);
-            MainActivity.player.execute();
-            MainActivity.stopped = false;
+        if (BackgroundMusicService.isStopped()) {
+            BackgroundMusicService.start();
         }
     }
 
@@ -99,7 +96,6 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MainActivity.player.cancel(true);
     }
 
     protected View.OnClickListener backImageButtonOnClick = new View.OnClickListener() {

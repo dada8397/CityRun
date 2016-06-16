@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,11 +23,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected static BackgroundMusicPlayer player;
     GifMovieView mainBikeGif;
     GifMovieView mainMountainGif;
     ImageButton imageButton;
-    protected static Boolean stopped;
     protected static Context context;
 
     @Override
@@ -64,11 +61,8 @@ public class MainActivity extends AppCompatActivity {
             imageButton.setOnClickListener(startLoginActivity);
         }
 
-        player = new BackgroundMusicPlayer(MainActivity.this, R.raw.main_bgm, true);
-        player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        stopped = false;
-
         context = getApplicationContext();
+        BackgroundMusicService.start(MainActivity.this, R.raw.main_bgm, true);
     }
 
     @Override
@@ -81,8 +75,7 @@ public class MainActivity extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                player.cancel(true);
-                stopped = true;
+                BackgroundMusicService.pause();
             }
         }
     }
@@ -92,10 +85,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mainBikeGif.setPaused(false);
         mainMountainGif.setPaused(false);
-        if(stopped) {
-            player = new BackgroundMusicPlayer(MainActivity.this, R.raw.main_bgm, true);
-            player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            stopped = false;
+
+        if (BackgroundMusicService.isStopped()) {
+            BackgroundMusicService.start();
         }
     }
 
@@ -109,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        player.cancel(true);
+
+        BackgroundMusicService.clean();
     }
 
     protected View.OnClickListener startLoginActivity = new View.OnClickListener() {

@@ -7,7 +7,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -114,8 +113,7 @@ public class GameMenuActivity extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                MainActivity.player.cancel(true);
-                MainActivity.stopped = true;
+                BackgroundMusicService.pause();
             }
         }
     }
@@ -123,12 +121,9 @@ public class GameMenuActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (MainActivity.stopped) {
-            MainActivity.player = new BackgroundMusicPlayer(GameMenuActivity.this, R.raw.main_bgm, true);
-            MainActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            MainActivity.stopped = false;
+        if (BackgroundMusicService.isStopped()) {
+            BackgroundMusicService.start();
         }
-        initializeComponents();
     }
 
     @Override
@@ -139,7 +134,6 @@ public class GameMenuActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MainActivity.player.cancel(true);
     }
 
     @Override

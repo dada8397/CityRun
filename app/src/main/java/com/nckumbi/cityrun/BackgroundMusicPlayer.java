@@ -4,24 +4,21 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * Created by user on 2016/6/6.
  *
  * Usage:
  *   You should override onResume and onPause method in activity.
  *
- *   In activity class:
- *     BackgroundMusicPlayer player;
+ * In activity class:
+ *   BackgroundMusicPlayer player;
  *
- *   In onResume:
- *     player = new BackgroundMusicPlayer(CONTEXT, RESOURCE_ID, IS_LOOP);
- *     player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+ * In onResume:
+ *   player = new BackgroundMusicPlayer(CONTEXT, RESOURCE_ID, IS_LOOP);
+ *   player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
  *
- *   In onPause:
- *     player.cancel(true);
+ * In onPause:
+ *   player.cancel(true);
  */
 public class BackgroundMusicPlayer extends AsyncTask<Void, Void, Void> {
     private boolean loop;
@@ -48,31 +45,34 @@ public class BackgroundMusicPlayer extends AsyncTask<Void, Void, Void> {
         player.setVolume(volume, volume);
         player.start();
 
-        while(true) {
+        while (true) {
             if (isCancelled()) {
-                final Timer timer = new Timer();
-
-                TimerTask timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        volume -= 0.1f;
-                        player.setVolume(volume, volume);
-
-                        if (volume <= 0) {
-                            player.stop();
-
-                            timer.cancel();
-                            timer.purge();
-                        }
-                    }
-                };
-
-                timer.schedule(timerTask, 100, 100);
-
+                if (player.isPlaying()) {
+                    player.stop();
+                    player.release();
+                }
                 break;
             }
         }
 
         return null;
+    }
+
+    public void start() {
+        if (player != null && !player.isPlaying()) {
+            player.start();
+        }
+    }
+
+    public void pause() {
+        if (player != null && player.isPlaying()) {
+            player.pause();
+        }
+    }
+
+    public void stop() {
+        if (player != null && player.isPlaying()) {
+            player.stop();
+        }
     }
 }

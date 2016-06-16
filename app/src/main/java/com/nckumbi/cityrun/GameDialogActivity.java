@@ -5,10 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -64,7 +62,7 @@ public class GameDialogActivity extends AppCompatActivity {
         gameDialogButton.setOnClickListener(dialogClicked);
         count = 1;
 
-        chapterOneMsg = new String[] {
+        chapterOneMsg = new String[]{
                 "好熱",
                 "好想在事務所裡吹冷氣啊……",
                 "還以為沒落市場周邊應該很好找車位的，原來旁邊是國華街喔，唉",
@@ -91,8 +89,7 @@ public class GameDialogActivity extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                GameQaActivity.player.cancel(true);
-                GameQaActivity.stopped = true;
+                BackgroundMusicService.pause();
             }
         }
     }
@@ -100,10 +97,8 @@ public class GameDialogActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (GameQaActivity.stopped) {
-            GameQaActivity.player = new BackgroundMusicPlayer(GameDialogActivity.this, R.raw.main_bgm, true);
-            GameQaActivity.player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            GameQaActivity.stopped = false;
+        if (BackgroundMusicService.isStopped()) {
+            BackgroundMusicService.start(R.raw.game_bgm_seekret_market, true);
         }
     }
 
@@ -125,10 +120,10 @@ public class GameDialogActivity extends AppCompatActivity {
     protected View.OnClickListener dialogClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(count < chapterOneMsg.length) {
+            if (count < chapterOneMsg.length) {
                 setDialog("DADA", chapterOneMsg[count]);
-                count ++;
-            } else if(count == chapterOneMsg.length) {
+                count++;
+            } else if (count == chapterOneMsg.length) {
                 gameDialogQuestionImageView.setVisibility(View.VISIBLE);
                 gameDialogQuestionImageView.animate()
                         .alpha(1.0f)
@@ -145,7 +140,7 @@ public class GameDialogActivity extends AppCompatActivity {
                                 });
                             }
                         });
-                count ++;
+                count++;
             } else {
             }
         }

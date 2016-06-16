@@ -2,11 +2,7 @@ package com.nckumbi.cityrun;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.ActivityManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,8 +24,6 @@ import java.util.Timer;
  */
 public class GameQaActivity extends AppCompatActivity {
 
-    protected static BackgroundMusicPlayer player;
-    protected static Boolean stopped;
     protected int questionCount;
 
     TextView gameQaQuestionNumber;
@@ -62,9 +56,7 @@ public class GameQaActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_game_qa);
 
-        player = new BackgroundMusicPlayer(GameQaActivity.this, R.raw.game_bgm_seekret_market, true);
-        player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        stopped = false;
+        BackgroundMusicService.start(R.raw.game_bgm_seekret_market, true);
 
         gameQaQuestionNumber = (TextView) findViewById(R.id.gameQaQuestionNumber);
         gameQaQuestion = (TextView) findViewById(R.id.gameQaQuestion);
@@ -94,16 +86,8 @@ public class GameQaActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Context context = getApplicationContext();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> taskInfo = activityManager.getRunningTasks(1);
-        if (!taskInfo.isEmpty()) {
-            ComponentName topActivity = taskInfo.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                player.cancel(true);
-                stopped = true;
-            }
-        }
+
+        BackgroundMusicService.pause();
 
         if (expiredCheckTimer != null) {
             expiredCheckTimer.cancel();
@@ -114,11 +98,7 @@ public class GameQaActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (stopped) {
-            player = new BackgroundMusicPlayer(GameQaActivity.this, R.raw.game_bgm_seekret_market, true);
-            player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            stopped = false;
-        }
+        BackgroundMusicService.start(R.raw.game_bgm_seekret_market, true);
 
         if (expiredCheckTimer == null) {
             expiredCheckTimer = new Timer(true);
@@ -138,7 +118,6 @@ public class GameQaActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        player.cancel(true);
     }
 
     private String question(int count) {
