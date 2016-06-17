@@ -5,22 +5,22 @@
     android:background="@drawable/seekret_market_bg1">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/gameDialogMask"
         android:layout_gravity="center"
         android:background="@drawable/all_mask" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/gameDialogBackground"
         android:layout_gravity="center"
         android:background="@drawable/game_dialog_main_character" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/gameDialogCharacter"
         android:layout_gravity="center"
         android:background="@drawable/game_dialog_bg" />
@@ -81,10 +81,11 @@
     </RelativeLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/gameDialogQuestionImageView"
         android:layout_gravity="center"
-        android:src="@drawable/game_dialog_question" />
+        android:src="@drawable/game_dialog_question"
+        android:background="#C8000000" />
 
 </FrameLayout>

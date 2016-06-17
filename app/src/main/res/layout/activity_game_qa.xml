@@ -5,15 +5,15 @@
     android:background="@drawable/seekret_market_bg3">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/imageView"
         android:layout_gravity="center"
         android:src="@drawable/game_qa_bg" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal|top">
 
         <TextView
@@ -49,7 +49,8 @@
             android:layout_alignLeft="@+id/gameQaClock"
             android:layout_alignStart="@+id/gameQaClock"
             android:layout_marginBottom="410dp"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,7 +62,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="36dp"
-            android:layout_marginEnd="36dp" />
+            android:layout_marginEnd="36dp"
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,7 +73,9 @@
             android:id="@+id/gameQaQuestionNumber"
             android:layout_below="@+id/gameQaGold"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp" />
+            android:layout_marginTop="60dp"
+            android:textColor="#ffffff"
+            android:textSize="24dp" />
 
         <TextView
             android:layout_width="280dp"
@@ -82,7 +86,7 @@
             android:layout_below="@+id/gameQaQuestionNumber"
             android:layout_alignLeft="@+id/gameQaProgress"
             android:layout_alignStart="@+id/gameQaProgress"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:textSize="16dp" />
 
         <EditText
@@ -127,16 +131,18 @@
         android:layout_marginBottom="20dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/correctImage"
         android:layout_gravity="center"
-        android:src="@drawable/game_qa_correct" />
+        android:src="@drawable/game_qa_correct"
+        android:background="#C8000000" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/incorrectImage"
         android:layout_gravity="center"
-        android:src="@drawable/game_qa_incorrect" />
+        android:src="@drawable/game_qa_incorrect"
+        android:background="#c8000000" />
 </FrameLayout>

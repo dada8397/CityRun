@@ -85,7 +85,7 @@ public class ChapterSelectActivity extends AppCompatActivity {
         nowPlace = "seekret_market";
         nowChapter = sharedPreferences.getInt("seekret_market", 0);
         if (nowChapter == 0) {
-            sharedPreferences.edit().putInt("seekret_market", nowChapter);
+            sharedPreferences.edit().putInt("seekret_market", nowChapter).apply();
         }
     }
 

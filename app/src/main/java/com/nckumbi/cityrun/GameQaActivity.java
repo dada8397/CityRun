@@ -3,6 +3,11 @@ package com.nckumbi.cityrun;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+<<<<<<< Updated upstream
+=======
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+>>>>>>> Stashed changes
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +42,8 @@ public class GameQaActivity extends AppCompatActivity {
     private String currentSerial;
     private Timer expiredCheckTimer;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,10 +75,16 @@ public class GameQaActivity extends AppCompatActivity {
         correctImage.setAlpha(0.0f);
         incorrectImage.setAlpha(0.0f);
 
-        gameQaQuestionNumber.setText("Q1");
         gameQaEnterImageButton.setOnClickListener(submitAnswer);
 
-        questionCount = 1;
+        sharedPreferences = getSharedPreferences(
+                getApplicationContext().getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
+
+        questionCount = sharedPreferences.getInt("question_count", 1);
+        if (questionCount == 1) {
+            sharedPreferences.edit().putInt("question_count", questionCount).apply();
+        }
+        gameQaQuestionNumber.setText("Q" + questionCount);
 
         gameQaQuestion.setText(question(questionCount));
 
@@ -225,6 +238,7 @@ public class GameQaActivity extends AppCompatActivity {
             } else {
                 if (gameQaAnswer.getText().toString().equals(answer(questionCount))) {
                     questionCount++;
+                    sharedPreferences.edit().putInt("question_count", questionCount).apply();
                     correctImage.setVisibility(View.VISIBLE);
                     correctImage.animate()
                             .alpha(1.0f)

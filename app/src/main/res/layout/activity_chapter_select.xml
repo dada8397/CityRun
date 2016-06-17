@@ -6,14 +6,14 @@
 
     <com.nckumbi.cityrun.GifMovieView
         android:id="@+id/chapterSelectGif"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_weight="1"
         android:layout_gravity="center" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/chapterSelectItems"
         android:layout_gravity="center"
         android:background="@drawable/chapter_select_items" />
@@ -80,40 +80,40 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="380dp"
         android:layout_gravity="center_horizontal|bottom">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:id="@+id/chapterZeroImageView"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/chapter_select_unlocked_chapter_zero" />
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:id="@+id/chapterOneImageView"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/chapter_select_locked_chapter" />
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:id="@+id/chapterTwoImageView"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/chapter_select_locked_chapter" />
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:id="@+id/chapterThreeImageView"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/chapter_select_locked_chapter" />
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:id="@+id/chapterFourImageView"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/chapter_select_locked_chapter" />
