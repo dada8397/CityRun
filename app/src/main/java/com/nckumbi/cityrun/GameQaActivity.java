@@ -2,12 +2,9 @@ package com.nckumbi.cityrun;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.Intent;
-<<<<<<< Updated upstream
-=======
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
->>>>>>> Stashed changes
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +17,6 @@ import android.widget.TextView;
 
 import com.nckumbi.cityrun.utils.GameHelper;
 
-import java.util.List;
 import java.util.Timer;
 
 /**
@@ -113,14 +109,14 @@ public class GameQaActivity extends AppCompatActivity {
         super.onResume();
         BackgroundMusicService.start(R.raw.game_bgm_seekret_market, true);
 
-        if (expiredCheckTimer == null) {
-            expiredCheckTimer = new Timer(true);
-            expiredCheckTimer.schedule(new GameHelper.ExpiredCheckTask(
-                    GameQaActivity.this,
-                    gameQaClock,
-                    GameHelper.getStartTime(GameQaActivity.this, currentSerial)
-            ), 0, 1000);
-        }
+//        if (expiredCheckTimer == null) {
+//            expiredCheckTimer = new Timer(true);
+//            expiredCheckTimer.schedule(new GameHelper.ExpiredCheckTask(
+//                    GameQaActivity.this,
+//                    gameQaClock,
+//                    GameHelper.getStartTime(GameQaActivity.this, currentSerial)
+//            ), 0, 1000);
+//        }
     }
 
     @Override

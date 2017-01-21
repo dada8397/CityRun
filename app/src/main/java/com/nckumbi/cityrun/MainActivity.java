@@ -17,8 +17,13 @@ import android.widget.Toast;
 import com.nckumbi.cityrun.utils.ProfileHelper;
 import com.nckumbi.cityrun.utils.Utils;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
 
         context = getApplicationContext();
         BackgroundMusicService.start(MainActivity.this, R.raw.main_bgm, true);
+
+        String url = "http://140.115.197.16/?school=ncku&app=cityrun";
+        HttpClient client = new DefaultHttpClient();
+        HttpGet request = new HttpGet(url);
+        try {
+            HttpResponse response = client.execute(request);
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -110,19 +124,23 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             Log.d("Main activity", "Touch screen");
 
-            String uuid = ProfileHelper.getCurrentUuid(MainActivity.this);
-            if (uuid != null) {
-                Log.d("Main activity", "Found saved uuid");
-
-                loginWithUuid(uuid);
-            } else {
-                Log.d("Main activity", "Request to login");
-
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
+//            String uuid = ProfileHelper.getCurrentUuid(MainActivity.this);
+//            if (uuid != null) {
+//                Log.d("Main activity", "Found saved uuid");
+//
+//                loginWithUuid(uuid);
+//            } else {
+//                Log.d("Main activity", "Request to login");
+//
+//                Intent intent = new Intent();
+//                intent.setClass(MainActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//            }
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, GameMenuActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     };
 

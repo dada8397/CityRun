@@ -177,27 +177,27 @@ public class GameMenuActivity extends AppCompatActivity {
     }
 
     protected void initializeComponents(boolean unlocked) {
-        if (!unlocked) {
-            gameMenuMask.setVisibility(View.VISIBLE);
-            gameMenuChainRight.setVisibility(View.VISIBLE);
-            gameMenuChainLeft.setVisibility(View.VISIBLE);
-            gameMenuQrCodeImageButton.setVisibility(View.VISIBLE);
-            gameMenuLockImageButton.setVisibility(View.VISIBLE);
-
-            gameMenuChainLeft.setX(0);
-            gameMenuChainLeft.setY(
-                    (getWindow().getDecorView().getHeight() - gameMenuChainLeft.getHeight()) / 2);
-
-            gameMenuChainRight.setX(0);
-            gameMenuChainRight.setY(
-                    (getWindow().getDecorView().getHeight() - gameMenuChainRight.getHeight()) / 2);
-
-            gameMenuMask.setAlpha(1.0f);
-            gameMenuChainRight.setAlpha(1.0f);
-            gameMenuChainLeft.setAlpha(1.0f);
-            gameMenuQrCodeImageButton.setAlpha(1.0f);
-            gameMenuLockImageButton.setAlpha(1.0f);
-        } else {
+//        if (!unlocked) {
+//            gameMenuMask.setVisibility(View.VISIBLE);
+//            gameMenuChainRight.setVisibility(View.VISIBLE);
+//            gameMenuChainLeft.setVisibility(View.VISIBLE);
+//            gameMenuQrCodeImageButton.setVisibility(View.VISIBLE);
+//            gameMenuLockImageButton.setVisibility(View.VISIBLE);
+//
+//            gameMenuChainLeft.setX(0);
+//            gameMenuChainLeft.setY(
+//                    (getWindow().getDecorView().getHeight() - gameMenuChainLeft.getHeight()) / 2);
+//
+//            gameMenuChainRight.setX(0);
+//            gameMenuChainRight.setY(
+//                    (getWindow().getDecorView().getHeight() - gameMenuChainRight.getHeight()) / 2);
+//
+//            gameMenuMask.setAlpha(1.0f);
+//            gameMenuChainRight.setAlpha(1.0f);
+//            gameMenuChainLeft.setAlpha(1.0f);
+//            gameMenuQrCodeImageButton.setAlpha(1.0f);
+//            gameMenuLockImageButton.setAlpha(1.0f);
+//        } else {
             gameMenuMask.setVisibility(View.GONE);
             gameMenuChainRight.setVisibility(View.GONE);
             gameMenuChainLeft.setVisibility(View.GONE);
@@ -205,7 +205,7 @@ public class GameMenuActivity extends AppCompatActivity {
             unlockedGif.setVisibility(View.GONE);
             gameMenuLockImageButton.setVisibility(View.GONE);
             gameMenuUnlockedSloganImageView.setVisibility(View.GONE);
-        }
+//        }
     }
 
     protected Boolean isUnlocked() {

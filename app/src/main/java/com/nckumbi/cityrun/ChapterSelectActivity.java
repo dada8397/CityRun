@@ -94,16 +94,16 @@ public class ChapterSelectActivity extends AppCompatActivity {
         super.onResume();
         BackgroundMusicService.start(R.raw.main_bgm, true);
 
-        long serialStartTime = GameHelper.getStartTime(ChapterSelectActivity.this, currentSerial);
-
-        if (serialStartTime != GameHelper.getNowTimestamp()) {
-            expiredCheckTimer = new Timer(true);
-            expiredCheckTimer.schedule(new GameHelper.ExpiredCheckTask(
-                    ChapterSelectActivity.this,
-                    chapterSelectClock,
-                    serialStartTime
-            ), 0, 1000);
-        }
+//        long serialStartTime = GameHelper.getStartTime(ChapterSelectActivity.this, currentSerial);
+//
+//        if (serialStartTime != GameHelper.getNowTimestamp()) {
+//            expiredCheckTimer = new Timer(true);
+//            expiredCheckTimer.schedule(new GameHelper.ExpiredCheckTask(
+//                    ChapterSelectActivity.this,
+//                    chapterSelectClock,
+//                    serialStartTime
+//            ), 0, 1000);
+//        }
     }
 
     @Override
@@ -148,15 +148,15 @@ public class ChapterSelectActivity extends AppCompatActivity {
     protected View.OnClickListener gameStartClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            GameHelper.saveStartTime(ChapterSelectActivity.this, currentSerial);
-            if (expiredCheckTimer == null) {
-                expiredCheckTimer = new Timer(true);
-                expiredCheckTimer.schedule(new GameHelper.ExpiredCheckTask(
-                        ChapterSelectActivity.this,
-                        chapterSelectClock,
-                        GameHelper.getStartTime(ChapterSelectActivity.this, currentSerial)
-                ), 0, 1000);
-            }
+//            GameHelper.saveStartTime(ChapterSelectActivity.this, currentSerial);
+//            if (expiredCheckTimer == null) {
+//                expiredCheckTimer = new Timer(true);
+//                expiredCheckTimer.schedule(new GameHelper.ExpiredCheckTask(
+//                        ChapterSelectActivity.this,
+//                        chapterSelectClock,
+//                        GameHelper.getStartTime(ChapterSelectActivity.this, currentSerial)
+//                ), 0, 1000);
+//            }
 
             Intent intent = new Intent();
             intent.setClass(ChapterSelectActivity.this, GameQaActivity.class);
